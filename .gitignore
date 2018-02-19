@@ -1,0 +1,7 @@
+/.vs
+/Release
+/Debug
+/PacketCaptureEngineTest/Release
+/PacketCaptureEngineTest/x64
+/PacketCaptureEngineTest/Debug
+/x64
