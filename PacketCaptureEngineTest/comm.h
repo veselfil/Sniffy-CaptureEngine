@@ -5,6 +5,6 @@
 
 static SOCKET _sock;
 
-bool ConnectToHost(int PortNo, char* IPAddress);
+bool CreateSocket(int PortNo, char* IPAddress);
 void CloseConnection();
 void SendData(u_char* data, u_int dataLength);

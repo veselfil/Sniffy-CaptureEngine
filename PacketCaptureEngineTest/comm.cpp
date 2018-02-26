@@ -1,7 +1,11 @@
 #include "stdafx.h"
 #include "comm.h"
 
-bool ConnectToHost(int PortNo, char* IPAddress)
+static int PortNumber;
+static char* IPAddress;
+static SOCKADDR_IN Target;
+
+bool CreateSocket(int portNo, char* ip)
 {
 	WSADATA wsadata; // retarded windows bullshit
 
@@ -16,26 +20,18 @@ bool ConnectToHost(int PortNo, char* IPAddress)
 		return false;
 	}
 
-	SOCKADDR_IN target;
+	Target.sin_family = AF_INET;
+	Target.sin_port = htons(portNo);
+	Target.sin_addr.s_addr = inet_addr(ip);
 
-	target.sin_family = AF_INET;
-	target.sin_port = htons(PortNo);
-	target.sin_addr.s_addr = inet_addr(IPAddress);
-
-	_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	_sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 	if (_sock == INVALID_SOCKET)
 	{
 		return false;
 	}
 
-	if (connect(_sock, (SOCKADDR *)&target, sizeof(target)) == SOCKET_ERROR)
-	{
-		return false;
-	}
-	else
-	{
-		return true;
-	}
+	PortNumber = portNo;
+	IPAddress = ip;
 }
 
 void CloseConnection()
@@ -48,5 +44,5 @@ void CloseConnection()
 
 void SendData(u_char* data, u_int dataLength)
 {
-	send(_sock, (const char*)data, dataLength, 0);
+	sendto(_sock, (const char*)data, dataLength, 0, (SOCKADDR *) &Target, sizeof(Target));
 }

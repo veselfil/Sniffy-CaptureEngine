@@ -3,6 +3,7 @@
 #include <vector>
 #include <iostream>
 
+#define WIN32
 #define WINPCAP
 #define HAVE_REMOTE
 
