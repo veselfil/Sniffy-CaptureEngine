@@ -18,7 +18,6 @@ void RegisterCaptureCallback(unsigned int inum, pcap_handler handler)
 	char errbuf[PCAP_ERRBUF_SIZE];
 	pcap_findalldevs(&allDevices, errbuf);
 
-	// navigate to selected device
 	for (captureDevice = allDevices, i = 0; i < inum - 1; captureDevice = captureDevice->next, i++);
 
 	pcap_t* pcapHandle = pcap_open(captureDevice->name, 100, PCAP_OPENFLAG_PROMISCUOUS, 20, NULL, errbuf);
